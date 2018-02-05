@@ -6,11 +6,15 @@ package com.blackbox.sharing.ws;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blackbox.sharing.domain.Person;
+import com.blackbox.sharing.services.PersonService;
 
 /**
  * @author joseph
@@ -19,16 +23,12 @@ import com.blackbox.sharing.domain.Person;
 @RestController
 @RequestMapping(value="/persons")
 public class PersonRest {
-	@RequestMapping(method=RequestMethod.GET)
-	public List<Person> test() {
-		Person p1 = new Person(1, "Alba", "alba@gmail.com");
-		Person p2 = new Person(2, "Ikram", "ikram@email.com");
-		Person p3 = new Person(3, "Alba", "danis@email.com");
-		List<Person> list = new ArrayList<>();
-		list.add(p1);
-		list.add(p2);
-		list.add(p3);
+	@Autowired
+	private PersonService service;
 
-		return list;
+	@RequestMapping(value="/{id}", method=RequestMethod.GET)
+	public ResponseEntity<?> find(@PathVariable Integer id) {
+		Person obj = service.find(id);
+		return ResponseEntity.ok().body(obj);
 	}
 }
