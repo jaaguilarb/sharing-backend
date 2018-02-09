@@ -26,6 +26,13 @@ public class Member extends Person implements Serializable {
 		inverseJoinColumns = @JoinColumn(name = "role_id"))
     public List<Role> assignedRole = new ArrayList<Role> ();
 
+    @ManyToMany
+	@JoinTable(name="Member_Course",
+		joinColumns = @JoinColumn(name = "member_id"),
+		inverseJoinColumns = @JoinColumn(name = "course_id")
+	)
+    public List<Course> assignedCourses = new ArrayList<Course> ();
+
     /**
 	 * 
 	 */
@@ -37,10 +44,9 @@ public class Member extends Person implements Serializable {
 	 * @param photo
 	 * @param roles
 	 */
-	public Member(Float rating, byte[] photo, List<Role> roles) {
+	public Member(Float rating, byte[] photo) {
 		this.rating = rating;
 		this.photo = photo;
-		this.assignedRole = roles;
 	}
 
 	/**
@@ -86,5 +92,19 @@ public class Member extends Person implements Serializable {
 	 */
 	public void setAssignedRole(List<Role> assignedRole) {
 		this.assignedRole = assignedRole;
+	}
+
+	/**
+	 * @return the assignedCourses
+	 */
+	public List<Course> getAssignedCourses() {
+		return assignedCourses;
+	}
+
+	/**
+	 * @param assignedCourses the assignedCourses to set
+	 */
+	public void setAssignedCourses(List<Course> assignedCourses) {
+		this.assignedCourses = assignedCourses;
 	}
 }

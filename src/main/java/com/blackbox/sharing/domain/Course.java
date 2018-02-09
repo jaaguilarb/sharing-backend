@@ -4,23 +4,35 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+
+@Entity
 public class Course implements Serializable {
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = -4565638880584236635L;
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
     private String name;
 
     private String description;
 
-    public List<Lesson> lesson = new ArrayList<Lesson> ();
+    //public List<Lesson> lesson = new ArrayList<Lesson> ();
 
-    public List<Task> task = new ArrayList<Task> ();
+    //public List<Task> task = new ArrayList<Task> ();
 
-    public List<Test> test = new ArrayList<Test> ();
+    //public List<Test> test = new ArrayList<Test> ();
+
+    @ManyToMany(mappedBy = "assignedCourses")
+    public List<Member> hasLearners = new ArrayList<Member> ();
 
 	/**
 	 * 
@@ -36,13 +48,10 @@ public class Course implements Serializable {
 	 * @param task
 	 * @param test
 	 */
-	public Course(Integer id, String name, String description, List<Lesson> lesson, List<Task> task, List<Test> test) {
+	public Course(Integer id, String name, String description) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
-		this.lesson = lesson;
-		this.task = task;
-		this.test = test;
 	}
 
 	/**
@@ -88,45 +97,17 @@ public class Course implements Serializable {
 	}
 
 	/**
-	 * @return the lesson
+	 * @return the hasLearners
 	 */
-	public List<Lesson> getLesson() {
-		return lesson;
+	public List<Member> getHasLearners() {
+		return hasLearners;
 	}
 
 	/**
-	 * @param lesson the lesson to set
+	 * @param hasLearners the hasLearners to set
 	 */
-	public void setLesson(List<Lesson> lesson) {
-		this.lesson = lesson;
-	}
-
-	/**
-	 * @return the task
-	 */
-	public List<Task> getTask() {
-		return task;
-	}
-
-	/**
-	 * @param task the task to set
-	 */
-	public void setTask(List<Task> task) {
-		this.task = task;
-	}
-
-	/**
-	 * @return the test
-	 */
-	public List<Test> getTest() {
-		return test;
-	}
-
-	/**
-	 * @param test the test to set
-	 */
-	public void setTest(List<Test> test) {
-		this.test = test;
+	public void setHasLearners(List<Member> hasLearners) {
+		this.hasLearners = hasLearners;
 	}
 
 	/* (non-Javadoc)
@@ -158,17 +139,5 @@ public class Course implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		final int maxLen = 3;
-		return "Course [id=" + id + ", name=" + name + ", description=" + description + ", lesson="
-				+ (lesson != null ? lesson.subList(0, Math.min(lesson.size(), maxLen)) : null) + ", task="
-				+ (task != null ? task.subList(0, Math.min(task.size(), maxLen)) : null) + ", test="
-				+ (test != null ? test.subList(0, Math.min(test.size(), maxLen)) : null) + "]";
 	}
 }

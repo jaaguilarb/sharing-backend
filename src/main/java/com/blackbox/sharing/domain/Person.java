@@ -18,7 +18,7 @@ import javax.persistence.InheritanceType;
  */
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
-public class Person implements Serializable {
+public abstract class Person implements Serializable {
 	/**
 	 * 
 	 */

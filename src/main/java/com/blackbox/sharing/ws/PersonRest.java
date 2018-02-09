@@ -3,9 +3,6 @@
  */
 package com.blackbox.sharing.ws;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +17,7 @@ import com.blackbox.sharing.services.MemberService;
  * @author joseph
  *
  */
+@SuppressWarnings("unused")
 @RestController
 @RequestMapping(value="/persons")
 public class PersonRest {
