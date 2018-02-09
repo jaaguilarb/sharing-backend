@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blackbox.sharing.domain.Person;
-import com.blackbox.sharing.services.PersonService;
+import com.blackbox.sharing.services.MemberService;
 
 /**
  * @author joseph
@@ -24,7 +24,7 @@ import com.blackbox.sharing.services.PersonService;
 @RequestMapping(value="/persons")
 public class PersonRest {
 	@Autowired
-	private PersonService service;
+	private MemberService service;
 
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<?> find(@PathVariable Integer id) {
