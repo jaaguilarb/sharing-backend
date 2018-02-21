@@ -1,59 +1,71 @@
 package com.blackbox.sharing.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class Role implements Serializable {
-    /**
+public class Lesson implements Serializable {
+
+	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1342051323583761270L;
+	private static final long serialVersionUID = -7455099701492090246L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
+    private Integer id;
+
+    private String title;
 
     private String description;
 
-    @ManyToMany(mappedBy="roles")
-    public List<Member> members = new ArrayList<Member> ();
+    public ResourceType resourceType;
 
-	/**
+    @ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="topic_id")
+    public Topic topic;
+
+    /**
 	 * 
 	 */
-	public Role() {
+	public Lesson() {
 	}
 
-	/**
+    /**
 	 * @param id
+	 * @param title
 	 * @param description
+	 * @param resourceType
 	 */
-	public Role(Integer id, String description) {
+	public Lesson(Integer id, String title, String description, ResourceType resourceType) {
 		this.id = id;
+		this.title = title;
 		this.description = description;
+		this.resourceType = resourceType;
 	}
 
-	/**
-	 * @return the id
-	 */
-	public Integer getId() {
-		return id;
-	}
+	int getId() {
+        return this.id;
+    }
 
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    void setId(int value) {
+        this.id = value;
+    }
+
+    String getTitle() {
+        return this.title;
+    }
+
+    void setTitle(String value) {
+        this.title = value;
+    }
 
 	/**
 	 * @return the description
@@ -70,17 +82,17 @@ public class Role implements Serializable {
 	}
 
 	/**
-	 * @return the members
+	 * @return the topic
 	 */
-	public List<Member> getMembers() {
-		return members;
+	public Topic getTopic() {
+		return topic;
 	}
 
 	/**
-	 * @param members the members to set
+	 * @param topic the topic to set
 	 */
-	public void setMembers(List<Member> members) {
-		this.members = members;
+	public void setTopic(Topic topic) {
+		this.topic = topic;
 	}
 
 	/* (non-Javadoc)
@@ -105,22 +117,12 @@ public class Role implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Role other = (Role) obj;
+		Lesson other = (Lesson) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		final int maxLen = 3;
-		return "Role [id=" + id + ", description=" + description + ", members="
-				+ (members != null ? members.subList(0, Math.min(members.size(), maxLen)) : null) + "]";
 	}
 }

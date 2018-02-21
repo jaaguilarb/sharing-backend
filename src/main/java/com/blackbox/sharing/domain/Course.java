@@ -2,12 +2,15 @@ package com.blackbox.sharing.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 @Entity
@@ -25,16 +28,21 @@ public class Course implements Serializable {
 
     private String description;
 
-    //public List<Lesson> lesson = new ArrayList<Lesson> ();
+    @ManyToMany
+    @JoinTable(name = "COURSE_MEMBER",
+     joinColumns = { @JoinColumn(name = "course_id") },
+     inverseJoinColumns = { @JoinColumn(name = "member_id") }
+    )
+    public List<Member> members = new ArrayList<Member> ();
 
-    //public List<Task> task = new ArrayList<Task> ();
+    @ManyToMany
+    @JoinTable(name = "COURSE_TOPIC",
+     joinColumns = { @JoinColumn(name = "course_id") },
+     inverseJoinColumns = { @JoinColumn(name = "topic_id") }
+    )
+    public List<Topic> topics = new LinkedList<Topic> ();
 
-    //public List<Test> test = new ArrayList<Test> ();
-
-    @ManyToMany(mappedBy = "assignedCourses")
-    public List<Member> hasLearners = new ArrayList<Member> ();
-
-	/**
+    /**
 	 * 
 	 */
 	public Course() {
@@ -97,17 +105,31 @@ public class Course implements Serializable {
 	}
 
 	/**
-	 * @return the hasLearners
+	 * @return the members
 	 */
-	public List<Member> getHasLearners() {
-		return hasLearners;
+	public List<Member> getMembers() {
+		return members;
 	}
 
 	/**
-	 * @param hasLearners the hasLearners to set
+	 * @param members the members to set
 	 */
-	public void setHasLearners(List<Member> hasLearners) {
-		this.hasLearners = hasLearners;
+	public void setMembers(List<Member> members) {
+		this.members = members;
+	}
+
+	/**
+	 * @return the topics
+	 */
+	public List<Topic> getTopics() {
+		return topics;
+	}
+
+	/**
+	 * @param topics the topics to set
+	 */
+	public void setTopics(List<Topic> topics) {
+		this.topics = topics;
 	}
 
 	/* (non-Javadoc)

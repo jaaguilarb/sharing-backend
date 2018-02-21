@@ -21,21 +21,19 @@ public class Member extends Person implements Serializable {
     private byte[] photo;
 
     @ManyToMany
-	@JoinTable(name="Member_Role",
-		joinColumns = @JoinColumn(name = "member_id"),
-		inverseJoinColumns = @JoinColumn(name = "role_id"))
-    public List<Role> assignedRole = new ArrayList<Role> ();
+    @JoinTable(name = "MEMBER_ROLE",
+        joinColumns = @JoinColumn(name = "member_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    public List<Role> roles = new ArrayList<Role> ();
 
-    @ManyToMany
-	@JoinTable(name="Member_Course",
-		joinColumns = @JoinColumn(name = "member_id"),
-		inverseJoinColumns = @JoinColumn(name = "course_id")
-	)
-    public List<Course> assignedCourses = new ArrayList<Course> ();
+    @ManyToMany(mappedBy="members")
+    public List<Course> courses = new ArrayList<Course> ();
 
     /**
 	 * 
 	 */
+    
 	public Member() {
 	}
 
@@ -61,7 +59,7 @@ public class Member extends Person implements Serializable {
 		super(id, name, email);
 		this.rating = rating;
 		this.photo = photo;
-		this.assignedRole = assignedRole;
+		this.roles = assignedRole;
 	}
 
 	Float getRating() {
@@ -81,30 +79,30 @@ public class Member extends Person implements Serializable {
     }
 
 	/**
-	 * @return the assignedRole
+	 * @return the assignedRoles
 	 */
-	public List<Role> getAssignedRole() {
-		return assignedRole;
+	public List<Role> getAssignedRoles() {
+		return roles;
 	}
 
 	/**
-	 * @param assignedRole the assignedRole to set
+	 * @param assignedRoles the assignedRoles to set
 	 */
-	public void setAssignedRole(List<Role> assignedRole) {
-		this.assignedRole = assignedRole;
+	public void setAssignedRoles(List<Role> assignedRoles) {
+		this.roles = assignedRoles;
 	}
 
 	/**
 	 * @return the assignedCourses
 	 */
 	public List<Course> getAssignedCourses() {
-		return assignedCourses;
+		return courses;
 	}
 
 	/**
 	 * @param assignedCourses the assignedCourses to set
 	 */
 	public void setAssignedCourses(List<Course> assignedCourses) {
-		this.assignedCourses = assignedCourses;
+		this.courses = assignedCourses;
 	}
 }
