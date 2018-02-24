@@ -13,6 +13,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Topic {
     @Id
@@ -23,6 +25,7 @@ public class Topic {
 
     private String description;
 
+    @JsonBackReference
     @ManyToMany(mappedBy="topics")
     public List<Course> courses = new ArrayList<Course> ();
 

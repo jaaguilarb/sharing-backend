@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Course implements Serializable {
     /**
@@ -28,6 +30,7 @@ public class Course implements Serializable {
 
     private String description;
 
+    @JsonManagedReference
     @ManyToMany
     @JoinTable(name = "COURSE_MEMBER",
      joinColumns = { @JoinColumn(name = "course_id") },
@@ -35,6 +38,7 @@ public class Course implements Serializable {
     )
     public List<Member> members = new ArrayList<Member> ();
 
+    @JsonManagedReference
     @ManyToMany
     @JoinTable(name = "COURSE_TOPIC",
      joinColumns = { @JoinColumn(name = "course_id") },
