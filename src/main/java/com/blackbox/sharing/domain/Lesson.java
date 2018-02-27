@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Lesson implements Serializable {
 
@@ -28,6 +30,7 @@ public class Lesson implements Serializable {
 
     public ResourceType resourceType;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="topic_id")
     public Topic topic;

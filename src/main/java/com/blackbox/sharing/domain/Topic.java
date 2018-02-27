@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Topic {
@@ -25,13 +26,15 @@ public class Topic {
 
     private String description;
 
-    @JsonBackReference
+    @JsonManagedReference
     @ManyToMany(mappedBy="topics")
     public List<Course> courses = new ArrayList<Course> ();
 
+    @JsonBackReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "topic")
     public Test test;
 
+    @JsonManagedReference
     @OneToMany(mappedBy="topic",
     		cascade = CascadeType.ALL,
     		orphanRemoval = true)

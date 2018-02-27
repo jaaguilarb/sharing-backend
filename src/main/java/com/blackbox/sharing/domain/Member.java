@@ -23,7 +23,7 @@ public class Member extends Person implements Serializable {
 
     private byte[] photo;
 
-    @JsonManagedReference
+    @JsonBackReference
     @ManyToMany
     @JoinTable(name = "MEMBER_ROLE",
         joinColumns = @JoinColumn(name = "member_id"),
@@ -31,8 +31,8 @@ public class Member extends Person implements Serializable {
     )
     public List<Role> roles = new ArrayList<Role> ();
 
-    @JsonBackReference
-    @ManyToMany(mappedBy="members")
+    @JsonManagedReference
+    @ManyToMany(mappedBy="learners")
     public List<Course> courses = new ArrayList<Course> ();
 
     /**
@@ -58,13 +58,13 @@ public class Member extends Person implements Serializable {
 	 * @param id
 	 * @param rating
 	 * @param photo
-	 * @param assignedRole
+	 * @param role
 	 */
-	public Member(Integer id, String name, String email, Float rating, byte[] photo, List<Role> assignedRole) {
+	public Member(Integer id, String name, String email, Float rating, byte[] photo, List<Role> role) {
 		super(id, name, email);
 		this.rating = rating;
 		this.photo = photo;
-		this.roles = assignedRole;
+		this.roles = role;
 	}
 
 	Float getRating() {
@@ -84,17 +84,17 @@ public class Member extends Person implements Serializable {
     }
 
 	/**
-	 * @return the assignedRoles
+	 * @return the roles
 	 */
-	public List<Role> getAssignedRoles() {
+	public List<Role> getRoles() {
 		return roles;
 	}
 
 	/**
-	 * @param assignedRoles the assignedRoles to set
+	 * @param roles the roles to set
 	 */
-	public void setAssignedRoles(List<Role> assignedRoles) {
-		this.roles = assignedRoles;
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 
 	/**

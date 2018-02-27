@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -30,15 +31,15 @@ public class Course implements Serializable {
 
     private String description;
 
-    @JsonManagedReference
+    @JsonBackReference
     @ManyToMany
     @JoinTable(name = "COURSE_MEMBER",
      joinColumns = { @JoinColumn(name = "course_id") },
      inverseJoinColumns = { @JoinColumn(name = "member_id") }
     )
-    public List<Member> members = new ArrayList<Member> ();
+    public List<Member> learners = new ArrayList<Member> ();
 
-    @JsonManagedReference
+    @JsonBackReference
     @ManyToMany
     @JoinTable(name = "COURSE_TOPIC",
      joinColumns = { @JoinColumn(name = "course_id") },
@@ -109,17 +110,17 @@ public class Course implements Serializable {
 	}
 
 	/**
-	 * @return the members
+	 * @return the learners
 	 */
-	public List<Member> getMembers() {
-		return members;
+	public List<Member> getLearners() {
+		return learners;
 	}
 
 	/**
-	 * @param members the members to set
+	 * @param learners the learners to set
 	 */
-	public void setMembers(List<Member> members) {
-		this.members = members;
+	public void setLearners(List<Member> learners) {
+		this.learners = learners;
 	}
 
 	/**

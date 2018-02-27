@@ -56,7 +56,7 @@ public class SharingApplication implements CommandLineRunner {
 
 		Member m1 = new Member(null, "Alba", "alba@gmail.com", 0.0f, null, Arrays.asList(r1));
 		Member m2 = new Member(null, "Ikram", "ikram@gmail.com", 0.0f, null, Arrays.asList(r2));
-		Member m3 = new Member(null, "Danis", "danis@gmail.com", 0.0f, null, Arrays.asList(r3));
+		Member m3 = new Member(null, "Danis", "danis@gmail.com", 0.0f, null, Arrays.asList(r1,r2,r3));
 
 		Course c1 = new Course(null, "Reinforcement learning", "This course is about reinforcement learning with python and keras.");
 		Course c2 = new Course(null, "Differential equiations", "This course is about differential equations.");
@@ -94,9 +94,9 @@ public class SharingApplication implements CommandLineRunner {
 		m2.getAssignedCourses().addAll(Arrays.asList(c2));
 		m3.getAssignedCourses().addAll(Arrays.asList(c1, c2, c3));
 
-		c1.getMembers().addAll(Arrays.asList(m1, m3));
-		c2.getMembers().addAll(Arrays.asList(m2, m3));
-		c3.getMembers().addAll(Arrays.asList(m1, m3));
+		c1.getLearners().addAll(Arrays.asList(m1, m3));
+		c2.getLearners().addAll(Arrays.asList(m2, m3));
+		c3.getLearners().addAll(Arrays.asList(m1, m3));
 
 		roleRepository.save(Arrays.asList(r1, r2, r3));
 		memberRepository.save(Arrays.asList(m1, m2, m3));
