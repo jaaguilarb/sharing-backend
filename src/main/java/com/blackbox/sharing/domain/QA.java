@@ -29,7 +29,7 @@ public class QA implements Serializable {
 
     private String answer;
 
-    public QAType itemType;
+    public Integer itemType;
 
     @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
@@ -55,7 +55,7 @@ public class QA implements Serializable {
 		this.question = question;
 		this.correctAnswer = correctAnswer;
 		this.answer = answer;
-		this.itemType = itemType;
+		this.itemType = itemType.getCode();
 		this.test = test;
 	}
 
@@ -119,14 +119,14 @@ public class QA implements Serializable {
 	 * @return the itemType
 	 */
 	public QAType getItemType() {
-		return itemType;
+		return QAType.toEnum(itemType);
 	}
 
 	/**
 	 * @param itemType the itemType to set
 	 */
 	public void setItemType(QAType itemType) {
-		this.itemType = itemType;
+		this.itemType = itemType.getCode();
 	}
 
 	/**

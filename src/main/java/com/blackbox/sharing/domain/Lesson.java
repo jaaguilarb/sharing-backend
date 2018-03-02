@@ -28,7 +28,7 @@ public class Lesson implements Serializable {
 
     private String description;
 
-    public ResourceType resourceType;
+    public Integer resourceType;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
@@ -51,7 +51,7 @@ public class Lesson implements Serializable {
 		this.id = id;
 		this.title = title;
 		this.description = description;
-		this.resourceType = resourceType;
+		this.resourceType = resourceType.getCode();
 	}
 
 	int getId() {
@@ -82,6 +82,20 @@ public class Lesson implements Serializable {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	/**
+	 * @return the resourceType
+	 */
+	public ResourceType getResourceType() {
+		return ResourceType.toEnum(resourceType);
+	}
+
+	/**
+	 * @param resourceType the resourceType to set
+	 */
+	public void setResourceType(ResourceType resourceType) {
+		this.resourceType = resourceType.getCode();
 	}
 
 	/**
