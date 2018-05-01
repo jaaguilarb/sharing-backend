@@ -6,8 +6,8 @@ package com.blackbox.sharing.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.blackbox.sharing.domain.Member;
-import com.blackbox.sharing.repositories.MemberRepository;
+import com.blackbox.sharing.domain.Course;
+import com.blackbox.sharing.repositories.CourseRepository;
 import com.blackbox.sharing.services.exceptions.ObjectNotFoundException;
 
 /**
@@ -15,16 +15,16 @@ import com.blackbox.sharing.services.exceptions.ObjectNotFoundException;
  *
  */
 @Service
-public class MemberService {
+public class CourseService {
 	@Autowired
-	private MemberRepository reposit;
-	public Member find(Integer id) {
-		Member member = reposit.findOne(id);
-		if (member == null) {
+	private CourseRepository reposit;
+	public Course find(Integer id) {
+		Course course = reposit.findOne(id);
+		if (course == null) {
 			throw new ObjectNotFoundException("Object Not Found! Id: " + id
-					+ ", Type: " + Member.class.getName());
+					+ ", Type: " + Course.class.getName());
 		}
 
-		return member;
+		return course;
 	}
 }

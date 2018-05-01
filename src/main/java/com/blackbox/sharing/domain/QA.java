@@ -3,14 +3,13 @@ package com.blackbox.sharing.domain;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class QA implements Serializable {
@@ -31,8 +30,9 @@ public class QA implements Serializable {
 
     public Integer itemType;
 
-    @JsonManagedReference
-    @ManyToOne(fetch = FetchType.LAZY)
+    ///@JsonManagedReference
+    @JsonIgnore
+    @ManyToOne///(fetch = FetchType.LAZY)
     @JoinColumn(name = "test_id")
     public Test test;
 

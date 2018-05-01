@@ -1,24 +1,27 @@
 package com.blackbox.sharing.domain;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.io.Serializable;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-public class Topic {
-    @Id
+public class Topic implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4559467479852114332L;
+
+	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
@@ -26,19 +29,27 @@ public class Topic {
 
     private String description;
 
-    @JsonManagedReference
-    @ManyToMany(mappedBy="topics")
-    public List<Course> courses = new ArrayList<Course> ();
+    public Integer resourceType;
 
-    @JsonBackReference
+    ///@JsonIgnoreProperties("topics")
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name="course_id")
+    ///public List<Course> courses = new ArrayList<Course> ();
+    private Course course;
+
+    ///@JsonBackReference
+    //@JsonIgnore
+    @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "topic")
-    public Test test;
+    private Test test;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy="topic",
+    ///@JsonIgnoreProperties("topic")
+    @JsonIgnore
+    /***@OneToMany(mappedBy="topic",
     		cascade = CascadeType.ALL,
     		orphanRemoval = true)
-    public List<Lesson> lessons = new LinkedList<Lesson> ();
+    public List<Lesson> lessons = new LinkedList<Lesson> ();***/
 
 	/**
 	 * 
@@ -53,12 +64,13 @@ public class Topic {
 	 * @param courses
 	 * @param test
 	 */
-	public Topic(Integer id, String title, String description, List<Course> courses, Test test) {
+	public Topic(Integer id, String title, String description, Course course, Test test, ResourceType resourceType) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
-		this.courses = courses;
+		this.course = course;
 		this.test = test;
+		this.resourceType = resourceType.getCode();
 	}
 
 	/**
@@ -104,17 +116,31 @@ public class Topic {
 	}
 
 	/**
-	 * @return the courses
+	 * @return the resourceType
 	 */
-	public List<Course> getCourses() {
-		return courses;
+	public ResourceType getResourceType() {
+		return ResourceType.toEnum(resourceType);
 	}
 
 	/**
-	 * @param courses the courses to set
+	 * @param resourceType the resourceType to set
 	 */
-	public void setCourses(List<Course> courses) {
-		this.courses = courses;
+	public void setResourceType(ResourceType resourceType) {
+		this.resourceType = resourceType.getCode();
+	}
+
+	/**
+	 * @return the course
+	 */
+	public Course getCourse() {
+		return course;
+	}
+
+	/**
+	 * @param course the course to set
+	 */
+	public void setCourse(Course course) {
+		this.course = course;
 	}
 
 	/**
@@ -134,16 +160,16 @@ public class Topic {
 	/**
 	 * @return the lessons
 	 */
-	public List<Lesson> getLessons() {
+	/***public List<Lesson> getLessons() {
 		return lessons;
 	}
 
 	/**
 	 * @param lessons the lessons to set
 	 */
-	public void setLessons(List<Lesson> lessons) {
+	/***public void setLessons(List<Lesson> lessons) {
 		this.lessons = lessons;
-	}
+	}***/
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -181,9 +207,8 @@ public class Topic {
 	 */
 	@Override
 	public String toString() {
-		final int maxLen = 3;
-		return "Topic [id=" + id + ", title=" + title + ", description=" + description + ", courses="
-				+ (courses != null ? courses.subList(0, Math.min(courses.size(), maxLen)) : null) + ", test=" + test
+		return "Topic [id=" + id + ", title=" + title + ", description=" + description + ", course="
+				+ course + ", test=" + test
 				+ "]";
 	}
 

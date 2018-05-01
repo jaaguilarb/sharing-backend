@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 import com.blackbox.sharing.domain.Course;
-import com.blackbox.sharing.domain.Lesson;
 import com.blackbox.sharing.domain.Member;
 import com.blackbox.sharing.domain.QA;
 import com.blackbox.sharing.domain.QAType;
@@ -18,7 +17,6 @@ import com.blackbox.sharing.domain.Role;
 import com.blackbox.sharing.domain.Test;
 import com.blackbox.sharing.domain.Topic;
 import com.blackbox.sharing.repositories.CourseRepository;
-import com.blackbox.sharing.repositories.LessonRepository;
 import com.blackbox.sharing.repositories.MemberRepository;
 import com.blackbox.sharing.repositories.QARepository;
 import com.blackbox.sharing.repositories.RoleRepository;
@@ -39,8 +37,6 @@ public class SharingApplication implements CommandLineRunner {
 	private QARepository qaRepository;
 	@Autowired
 	private TestRepository testRepository;
-	@Autowired
-	private LessonRepository lessonRepository;
 	@Autowired
 	private TopicRepository topicRepository;
 
@@ -70,25 +66,27 @@ public class SharingApplication implements CommandLineRunner {
 
 		Test tt1 = new Test(null, Arrays.asList(q1, q2, q3, q4, q5), null);
 
-		Topic tp1 = new Topic(null, "Supervised Learning", "", Arrays.asList(c3), null);
-
-		Lesson l1 = new Lesson(null, "Introduction", "", ResourceType.VIDEO);
-		Lesson l2 = new Lesson(null, "Decision Trees", "", ResourceType.VIDEO);
-		Lesson l3 = new Lesson(null, "Support Vector Machines", "", ResourceType.VIDEO);
-		Lesson l4 = new Lesson(null, "K-Nearest Neighbor", "", ResourceType.VIDEO);
+		Topic tp1 = new Topic(null, "Introduction", "", c3, null, ResourceType.VIDEO);
+		Topic tp2 = new Topic(null, "Decision Trees", "", c3, null, ResourceType.VIDEO);
+		Topic tp3 = new Topic(null, "Support Vector Machines", "", c3, null, ResourceType.DOCUMENT);
+		Topic tp4 = new Topic(null, "K-Nearest Neighbor", "", c3, null, ResourceType.VIDEO);
 
 		tp1.setTest(tt1);
-		tp1.setLessons(Arrays.asList(l1, l2, l3, l4));
+		tp1.setCourse(c3);
+		tp2.setCourse(c3);
+		tp3.setCourse(c3);
+		tp4.setCourse(c3);
 
 		tt1.setTopic(tp1);
 
-		c3.setTopics(Arrays.asList(tp1));
+		c3.setTopics(Arrays.asList(tp1, tp2, tp3, tp4));
 		
 		q1.setTest(tt1);
 		q2.setTest(tt1);
 		q3.setTest(tt1);
 		q4.setTest(tt1);
 		q5.setTest(tt1);
+		tt1.setQuestions(Arrays.asList(q1, q2, q3, q4, q5));
 
 		m1.getAssignedCourses().addAll(Arrays.asList(c1, c3));
 		m2.getAssignedCourses().addAll(Arrays.asList(c2));
@@ -100,10 +98,9 @@ public class SharingApplication implements CommandLineRunner {
 
 		roleRepository.save(Arrays.asList(r1, r2, r3));
 		memberRepository.save(Arrays.asList(m1, m2, m3));
+		courseRepository.save(Arrays.asList(c1, c2, c3));
+		topicRepository.save(Arrays.asList(tp1, tp2, tp3, tp4));
 		testRepository.save(Arrays.asList(tt1));
 		qaRepository.save(Arrays.asList(q1, q2, q3, q4, q5));
-		lessonRepository.save(Arrays.asList(l1, l2, l3, l4));
-		topicRepository.save(Arrays.asList(tp1));
-		courseRepository.save(Arrays.asList(c1, c2, c3));
 	}
 }

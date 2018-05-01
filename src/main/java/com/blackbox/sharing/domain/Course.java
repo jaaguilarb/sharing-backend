@@ -12,9 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Course implements Serializable {
@@ -31,7 +31,8 @@ public class Course implements Serializable {
 
     private String description;
 
-    @JsonBackReference
+    ///@JsonBackReference
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "COURSE_MEMBER",
      joinColumns = { @JoinColumn(name = "course_id") },
@@ -39,12 +40,13 @@ public class Course implements Serializable {
     )
     public List<Member> learners = new ArrayList<Member> ();
 
-    @JsonBackReference
-    @ManyToMany
-    @JoinTable(name = "COURSE_TOPIC",
+    ///@JsonIgnoreProperties("courses")
+    ///@JsonIgnore
+    @OneToMany(mappedBy="course")
+    /***@JoinTable(name = "COURSE_TOPIC",
      joinColumns = { @JoinColumn(name = "course_id") },
      inverseJoinColumns = { @JoinColumn(name = "topic_id") }
-    )
+    )***/
     public List<Topic> topics = new LinkedList<Topic> ();
 
     /**

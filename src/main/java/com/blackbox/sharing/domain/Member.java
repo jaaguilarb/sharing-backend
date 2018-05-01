@@ -9,8 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Member extends Person implements Serializable {
@@ -23,7 +22,8 @@ public class Member extends Person implements Serializable {
 
     private byte[] photo;
 
-    @JsonBackReference
+    ///@JsonBackReference
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "MEMBER_ROLE",
         joinColumns = @JoinColumn(name = "member_id"),
@@ -31,7 +31,7 @@ public class Member extends Person implements Serializable {
     )
     public List<Role> roles = new ArrayList<Role> ();
 
-    @JsonManagedReference
+    ///@JsonManagedReference
     @ManyToMany(mappedBy="learners")
     public List<Course> courses = new ArrayList<Course> ();
 

@@ -4,13 +4,14 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Test implements Serializable {
@@ -23,12 +24,14 @@ public class Test implements Serializable {
     private Integer id;
 
 	@OneToMany(
-        mappedBy = "test", 
-        cascade = CascadeType.ALL,
-        orphanRemoval = true
+        mappedBy = "test"///, 
+        ///cascade = CascadeType.ALL,
+        ///orphanRemoval = true
     )
     public List<QA> questions = new LinkedList<QA> ();
 
+	//@JsonIgnore
+	@JsonBackReference
     @OneToOne
     @JoinColumn(name = "topic_id")
     @MapsId
