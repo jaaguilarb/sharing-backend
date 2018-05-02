@@ -20,4 +20,10 @@ public class RoleService {
 
 		return role;
 	}
+
+	public Role insert(Role role) {
+		role.setId(null);
+
+		return reposit.save(role);
+	}
 }
