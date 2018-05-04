@@ -26,4 +26,9 @@ public class RoleService {
 
 		return reposit.save(role);
 	}
+
+	public Role update(Role role) {
+		find(role.getId());
+		return reposit.save(role);
+	}
 }

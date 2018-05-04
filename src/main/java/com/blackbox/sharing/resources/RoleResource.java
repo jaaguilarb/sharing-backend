@@ -21,7 +21,7 @@ public class RoleResource {
 	private RoleService service;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	public ResponseEntity<Role> find(@PathVariable Integer id) {
 		Role role = service.find(id);
 
 		return ResponseEntity.ok().body(role);
@@ -34,5 +34,13 @@ public class RoleResource {
 				.path("/{id}").buildAndExpand(role.getId()).toUri();
 
 		return ResponseEntity.created(uri).build();
+	}
+
+	@RequestMapping(value = "/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody Role role, @PathVariable Integer id) {
+		role.setId(id);
+		role = service.update(role);
+
+		return ResponseEntity.noContent().build();
 	}
 }
